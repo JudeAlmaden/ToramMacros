@@ -11,7 +11,6 @@ global chatMessages := [
     "S>HB 2s @1050 POT 107 40m."
 ]
 
-; Test comment
 ; Event class
 class UserEvents {
     ;Constructor
