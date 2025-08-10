@@ -13,6 +13,9 @@ keyQuickMotion   := "v"
 ; Global state variables
 global isMacroRunning := false
 global currentStage := 0
+global cycloneSkillDelay := 300
+
+; Counters for skills and buffs
 global skillCounter := 0
 global buffCounter := 0
 global willUseSupportBuffs := false
@@ -123,7 +126,7 @@ runFarmingMacro() {
 
         case 1:
             spamSkill(keyCyclone, 4, 300)
-            interruptibleSleep(500)
+            interruptibleSleep(cycloneSkillDelay)
             skillCounter += 1
 
             if skillCounter >= 50 {
