@@ -13,7 +13,11 @@ keyQuickMotion   := "v"
 ; Global state variables
 global isMacroRunning := false
 global currentStage := 0
-global cycloneSkillDelay := 300
+global cycloneSkillDelay := 450
+global mpRegenDuration := 500
+global cycloneCountCap := 35
+global emoteDuration := 3000
+global emoteCount := 5
 
 ; Counters for skills and buffs
 global skillCounter := 0
@@ -120,7 +124,7 @@ runFarmingMacro() {
         case 0:
             if willUseSupportBuffs {
                 castSupportBuffs()
-                recoverMP(5000)
+                recoverMP()
             }
             currentStage := 1
 
@@ -129,8 +133,8 @@ runFarmingMacro() {
             interruptibleSleep(cycloneSkillDelay)
             skillCounter += 1
 
-            if skillCounter >= 50 {
-                recoverMP(8000)
+            if skillCounter >= cycloneCountCap {
+                recoverMP()
                 buffCounter += 1
                 skillCounter := 0
             }
@@ -146,16 +150,18 @@ castSupportBuffs() {
     sendWithInterrupt(keyQuickMotion, 3000)
     sendWithInterrupt(keyBrave, 7000)
 }
+
 ; Simulate MP recovery routine with emotes + movement
-recoverMP(duration := 7500) {
-    interruptibleSleep(5000)
+recoverMP() {
+    interruptibleSleep(2000)
+    global emoteDuration 
+    global emoteCount 
 
-    holdKey("a", 200)
-    interruptibleSleep(200)
-    sendWithInterrupt(keyEmote, duration)
-
-    holdKey("d", 200)
-    interruptibleSleep(200)
-    sendWithInterrupt(keyEmote, duration)
+    loop(emoteCount){
+        holdKey("a", 200)
+        Sleep(200)
+        holdKey("d", 200)
+        sendWithInterrupt(keyEmote, emoteDuration)
+    }
 }
 
