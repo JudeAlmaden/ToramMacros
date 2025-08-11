@@ -141,7 +141,7 @@ castMainBuffs() {
 }
 ; Storm skill spam and quick MP recovery
 castStormCycle() {
-    spamSkill(keyStorm, 4, 500)
+    spamSkill(keyStorm, 5, 600)
     interruptibleSleep(5000)
     sendWithInterrupt(keyMpCharge, 3000)
 }
