@@ -16,6 +16,8 @@ global currentStage := 0
 global skillCounter := 0
 global buffCounter := 0
 global willUseSupportBuffs := false
+global keyEmoteDuraIterations := 2 ; Number of iterations for emote duration
+global mpRecoveryTime := 3200 ; Time to recover MP with emotes
 
 class UserEvents {
     ;Constructor
@@ -110,6 +112,7 @@ runFarmingMacro() {
     global skillCounter
     global willUseSupportBuffs
     global buffCounter
+
     if !isMacroRunning
         return
 
@@ -117,7 +120,7 @@ runFarmingMacro() {
         case 0:
             if willUseSupportBuffs {
                 castSupportBuffs()
-                recoverMP(5000)
+                recoverMP()
             }
             currentStage := 1
 
@@ -126,8 +129,8 @@ runFarmingMacro() {
             interruptibleSleep(500)
             skillCounter += 1
 
-            if skillCounter >= 50 {
-                recoverMP(8000)
+            if skillCounter >= 40 {
+                recoverMP()
                 buffCounter += 1
                 skillCounter := 0
             }
@@ -144,15 +147,23 @@ castSupportBuffs() {
     sendWithInterrupt(keyBrave, 7000)
 }
 ; Simulate MP recovery routine with emotes + movement
-recoverMP(duration := 7500) {
-    interruptibleSleep(5000)
+recoverMP() {
+    global mpRecoveryTime
+    global keyEmoteDuraIterations
+    interruptibleSleep(2000)
 
-    holdKey("a", 200)
-    interruptibleSleep(200)
-    sendWithInterrupt(keyEmote, duration)
+    while (keyEmoteDuraIterations > 0) {
+        keyEmoteDuraIterations -= 1
 
-    holdKey("d", 200)
-    interruptibleSleep(200)
-    sendWithInterrupt(keyEmote, duration)
+        holdKey("a", 200)
+        interruptibleSleep(200)
+        sendWithInterrupt(keyEmote, mpRecoveryTime)
+
+        holdKey("d", 200)
+        interruptibleSleep(200)
+        sendWithInterrupt(keyEmote, mpRecoveryTime)
+    }
+
+    keyEmoteDuraIterations := 2 ; Reset for next cycle
 }
 

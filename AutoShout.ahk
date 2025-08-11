@@ -7,8 +7,8 @@ Title := "Chat Spam"
 global chatDelay := 2800 ; Delay between messages
 global isMacroRunning := false ; Controls whether the macro is active
 global chatMessages := [
-    "S>HB 2s @1050 POT 107 40m",
-    "S>HB 2s @1050 POT 107 40m."
+    "S>SG Atk Up lvl 10 25m",
+    "S>SG hb mastery 10 7m."
 ]
 
 ; Event class
