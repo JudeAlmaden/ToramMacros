@@ -109,7 +109,7 @@ runFarmingMacro() {
             currentStage := 2
 
         case 2:
-            if stormCounter < 15 {
+            if stormCounter < 20 {
                 castStormCycle()
                 stormCounter += 1
             } else {
@@ -128,13 +128,12 @@ runFarmingMacro() {
 
 ; Quick Motion + Brave + MP Recovery
 castSupportBuffs() {
-    sendWithInterrupt(keyQuickMotion, 2500)
-    sendWithInterrupt(keyBrave, 2500)
+    sendWithInterrupt(keyQuickMotion, 2000)
+    sendWithInterrupt(keyBrave, 2000)
     recoverMP()
 }
 ; Enchanted Barrier + Overlimit + MP Recovery
 castMainBuffs() {
-    sendWithInterrupt(keyEnchantedBarrier, 1000)
     sendWithInterrupt(keyOverlimit, 1000)
     recoverMP()
 }
@@ -143,11 +142,11 @@ castStormCycle() {
     spamSkill(keyStorm, 5, 600)
     interruptibleSleep(2000)
     recoverMP()
-    interruptibleSleep(4000)
+    interruptibleSleep(1000)
 }
 ; Charge + Maximizer combo
 recoverMP() {
-    sendWithInterrupt(keyEnchantedBarrier, 1000)
+    sendWithInterrupt(keyEnchantedBarrier, 750)
     sendWithInterrupt(keyMaximizer, 1000)
 }
 

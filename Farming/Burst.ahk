@@ -90,14 +90,12 @@ runFarmingLoop() {
 }
 ; Cast support skills like Quick Motion and Brave Aura
 useSupportBuffs() {
-    sendWithInterrupt(keyQuickMotion, 3000)
-    sendWithInterrupt(keyBrave, 3000)
+    sendWithInterrupt(keyQuickMotion, 2000)
+    sendWithInterrupt(keyBrave, 2000)
 }
 ; Cast main buffs and recover MP
 useMainBuffs() {
-    sendWithInterrupt(keyOverlimit, 1000)
-    sendWithInterrupt(keyEnchantedBarrier, 1250)
-    sendWithInterrupt(keyMaximizer, 1250)
+    sendWithInterrupt(keyOverlimit, 500)
     recoverMP()
 }
 ; Perform burst combo rotation
@@ -108,6 +106,6 @@ executeBurstCombo() {
 }
 ; Recover MP using Charge and Maximizer
 recoverMP() {
-    sendWithInterrupt(keyEnchantedBarrier, 1000)
-    sendWithInterrupt(keyMaximizer, 1000)
+    sendWithInterrupt(keyEnchantedBarrier, 500)
+    sendWithInterrupt(keyMaximizer, 500)
 }
