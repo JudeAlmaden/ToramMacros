@@ -7,20 +7,32 @@ Title := "Cyclone"
 ; Key bindings
 keyCyclone       := "1"
 keyEmote         := "r"
-keyBrave         := "c"
-keyQuickMotion   := "v"
+keyBuff1         := "z"
+keyBuff2         := "x"
+keyBuff3         := "c"
+keyBuff4        := "v" 
 
 ; Global state variables
 global isMacroRunning := false
 global currentStage := 0
-global cycloneSkillDelay := 300
+global cycloneSkillDelay := 600
+
+;Cyclone and emote Settings
+global iterationsBeforeBuff := 4 
+global cycloneCountCap := 70
+global emoteDuration := 3000
+global emoteCount := 3
+
+; Buff settings
+global willUseSupportBuffs := true
+global buff1 := true ; Whether to use Brave Aura
+global buff2 := true ; Whether to use Quick Motion
+global buff3 := true ; Whether to use Mana Recovery
+global buff4 := true ; Whether to use any other buffs
 
 ; Counters for skills and buffs
 global skillCounter := 0
 global buffCounter := 0
-global willUseSupportBuffs := false
-global keyEmoteDuraIterations := 2 ; Number of iterations for emote duration
-global mpRecoveryTime := 3200 ; Time to recover MP with emotes
 
 class UserEvents {
     ;Constructor
@@ -58,30 +70,9 @@ class UserEvents {
             WinActivate("ToramOnline")
             WinWaitActive("ToramOnline")
             DllCall("SetForegroundWindow", "ptr", WinExist("ToramOnline"))
-            ToolTip("Farming: ON")
             SetTimer(runFarmingMacro, 100)
         } else {
-            ToolTip("Farming: OFF")
             SetTimer(runFarmingMacro, 0)
-            SetTimer(() => ToolTip(), -1500)
-
-            ; Reset counters
-            currentStage := 0
-            skillCounter := 0
-            buffCounter := 0
-        }
-
-        if isMacroRunning {
-            WinActivate("ToramOnline")
-            WinWaitActive("ToramOnline")
-            DllCall("SetForegroundWindow", "ptr", WinExist("ToramOnline"))
-            ToolTip("Farming: ON")
-            SetTimer(runFarmingMacro, 100)
-        } else {
-            ToolTip("Farming: OFF")
-            SetTimer(runFarmingMacro, 0)
-            SetTimer(() => ToolTip(), -1500)
-
             ; Reset counters
             currentStage := 0
             skillCounter := 0
@@ -132,13 +123,13 @@ runFarmingMacro() {
             interruptibleSleep(cycloneSkillDelay)
             skillCounter += 1
 
-            if skillCounter >= 40 {
+            if skillCounter >= cycloneCountCap {
                 recoverMP()
                 buffCounter += 1
                 skillCounter := 0
             }
 
-            if buffCounter >= 3 {
+            if buffCounter >= iterationsBeforeBuff {
                 currentStage := 0
                 buffCounter := 0
             }
@@ -146,27 +137,39 @@ runFarmingMacro() {
 }
 ; Cast Quick Motion and Brave Aura
 castSupportBuffs() {
-    sendWithInterrupt(keyQuickMotion, 3000)
-    sendWithInterrupt(keyBrave, 7000)
+    global willUseSupportBuffs
+    global buff1
+    global buff2
+    global buff3
+
+    if !willUseSupportBuffs
+        return
+
+    if buff1 {
+        sendWithInterrupt(keyBuff1, 2000)
+    }
+    if buff2 {
+        sendWithInterrupt(keyBuff2, 2000)
+    }
+    if buff3 {
+        sendWithInterrupt(keyBuff3, 2000)
+    }
+    if buff4 {
+        sendWithInterrupt(keyBuff4, 2000)
+    }
 }
+
 ; Simulate MP recovery routine with emotes + movement
 recoverMP() {
-    global mpRecoveryTime
-    global keyEmoteDuraIterations
     interruptibleSleep(2000)
+    global emoteDuration 
+    global emoteCount 
 
-    while (keyEmoteDuraIterations > 0) {
-        keyEmoteDuraIterations -= 1
-
-        holdKey("a", 200)
-        interruptibleSleep(200)
-        sendWithInterrupt(keyEmote, mpRecoveryTime)
-
-        holdKey("d", 200)
-        interruptibleSleep(200)
-        sendWithInterrupt(keyEmote, mpRecoveryTime)
+    loop(emoteCount){
+        holdKey("a", 100)
+        interruptibleSleep(100)
+        holdKey("d", 100)
+        sendWithInterrupt(keyEmote, emoteDuration)
     }
-
-    keyEmoteDuraIterations := 2 ; Reset for next cycle
 }
 

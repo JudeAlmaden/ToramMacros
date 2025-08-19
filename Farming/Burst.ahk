@@ -8,7 +8,6 @@ Title := "Burst"
 keyComboBurst      := "2"
 keyOverlimit       := "4"
 keyChronosShift    := "r"
-keyMpCharge        := "z"
 keyMaximizer       := "x"
 keyEnchantedBarrier := "1"
 keyBrave           := "c"
@@ -96,9 +95,9 @@ useSupportBuffs() {
 }
 ; Cast main buffs and recover MP
 useMainBuffs() {
-    sendWithInterrupt(keyMpCharge, 3000)
-    sendWithInterrupt(keyEnchantedBarrier, 1250)
     sendWithInterrupt(keyOverlimit, 1000)
+    sendWithInterrupt(keyEnchantedBarrier, 1250)
+    sendWithInterrupt(keyMaximizer, 1250)
     recoverMP()
 }
 ; Perform burst combo rotation
@@ -109,6 +108,6 @@ executeBurstCombo() {
 }
 ; Recover MP using Charge and Maximizer
 recoverMP() {
-    sendWithInterrupt(keyMpCharge, 3000)
+    sendWithInterrupt(keyEnchantedBarrier, 1000)
     sendWithInterrupt(keyMaximizer, 1000)
 }

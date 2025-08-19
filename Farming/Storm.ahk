@@ -7,9 +7,8 @@ Title := "Storm"
 ; === Skill Key Bindings ===
 keyStorm             := "3"
 keyOverlimit         := "4"
-keyMpCharge          := "z"
 keyMaximizer         := "x"
-keyEnchantedBarrier  := "1"
+keyEnchantedBarrier  := "z"
 keyBrave             := "c"
 keyQuickMotion       := "v"
 
@@ -110,7 +109,7 @@ runFarmingMacro() {
             currentStage := 2
 
         case 2:
-            if stormCounter < 7 {
+            if stormCounter < 15 {
                 castStormCycle()
                 stormCounter += 1
             } else {
@@ -142,12 +141,13 @@ castMainBuffs() {
 ; Storm skill spam and quick MP recovery
 castStormCycle() {
     spamSkill(keyStorm, 5, 600)
-    interruptibleSleep(5000)
-    sendWithInterrupt(keyMpCharge, 3000)
+    interruptibleSleep(2000)
+    recoverMP()
+    interruptibleSleep(4000)
 }
 ; Charge + Maximizer combo
 recoverMP() {
-    sendWithInterrupt(keyMpCharge, 3000)
+    sendWithInterrupt(keyEnchantedBarrier, 1000)
     sendWithInterrupt(keyMaximizer, 1000)
 }
 

@@ -10,7 +10,7 @@ sendWithInterrupt(key, delayMs) {
 
 interruptibleSleep(msTotal) {
     global isMacroRunning
-    local interval := 50
+    local interval := 10
     local elapsed := 0
     while elapsed < msTotal {
         if !isMacroRunning
